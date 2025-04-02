@@ -254,4 +254,8 @@ rightButton.addEventListener('click', () => {
 });
 
 // Initialize the game when the page loads
-window.addEventListener('load', initGame);
+window.addEventListener('load', () => {
+    // Ensure game over screen is hidden on initial load
+    gameOverElement.classList.add('hidden');
+    initGame();
+});
