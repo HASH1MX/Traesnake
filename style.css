@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.score-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(20, 20px);
+    grid-template-rows: repeat(20, 20px);
+    background-color: #222;
+    border: 5px solid #333;
+    border-radius: 5px;
+}
+
+.snake {
+    background-color: #4CAF50;
+    border-radius: 4px;
+    margin: 1px;
+    transition: all 0.1s;
+}
+
+.snake-head {
+    background-color: #388E3C;
+    border-radius: 4px;
+    margin: 1px;
+}
+
+.food {
+    background-color: #F44336;
+    border-radius: 50%;
+    margin: 2px;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(0.9); }
+    to { transform: scale(1.1); }
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.control-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+button:active {
+    background-color: #777;
+}
+
+#restart-btn {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+#game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+    width: 80%;
+    max-width: 300px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 500px) {
+    #game-board {
+        grid-template-columns: repeat(20, 15px);
+        grid-template-rows: repeat(20, 15px);
+    }
+    
+    button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
