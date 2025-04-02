@@ -19,19 +19,56 @@ let highScore = localStorage.getItem('snakeHighScore') || 0;
 let gameRunning = false;
 
 // DOM elements
-const gameBoard = document.getElementById('game-board');
-const scoreElement = document.getElementById('score');
-const highScoreElement = document.getElementById('highScore');
-const finalScoreElement = document.getElementById('final-score');
-const gameOverElement = document.getElementById('game-over');
-const restartButton = document.getElementById('restart-btn');
-const upButton = document.getElementById('up-btn');
-const downButton = document.getElementById('down-btn');
-const leftButton = document.getElementById('left-btn');
-const rightButton = document.getElementById('right-btn');
+let gameBoard;
+let scoreElement;
+let highScoreElement;
+let finalScoreElement;
+let gameOverElement;
+let restartButton;
+let upButton;
+let downButton;
+let leftButton;
+let rightButton;
+
+// Initialize DOM elements when the page is fully loaded
+function initDOMElements() {
+    gameBoard = document.getElementById('game-board');
+    scoreElement = document.getElementById('score');
+    highScoreElement = document.getElementById('highScore');
+    finalScoreElement = document.getElementById('final-score');
+    gameOverElement = document.getElementById('game-over');
+    restartButton = document.getElementById('restart-btn');
+    upButton = document.getElementById('up-btn');
+    downButton = document.getElementById('down-btn');
+    leftButton = document.getElementById('left-btn');
+    rightButton = document.getElementById('right-btn');
+    
+    // Ensure game over screen is hidden initially
+    if (gameOverElement) {
+        gameOverElement.classList.add('hidden');
+    }
+    
+    // Add event listener for restart button
+    if (restartButton) {
+        restartButton.addEventListener('click', function() {
+            // Explicitly hide the game over screen first
+            gameOverElement.classList.add('hidden');
+            // Reset game state
+            gameRunning = false;
+            if (gameInterval) clearInterval(gameInterval);
+            // Then initialize the game
+            initGame();
+        });
+    }
+}
 
 // Initialize the game
 function initGame() {
+    // Make sure game over screen is hidden
+    if (gameOverElement) {
+        gameOverElement.classList.add('hidden');
+    }
+    
     // Clear the game board
     gameBoard.innerHTML = '';
     
@@ -61,11 +98,13 @@ function initGame() {
     scoreElement.textContent = score;
     highScoreElement.textContent = highScore;
     
-    // Hide game over screen
-    gameOverElement.classList.add('hidden');
+    // Clear any existing game interval
+    if (gameInterval) {
+        clearInterval(gameInterval);
+        gameInterval = null;
+    }
     
     // Start the game loop
-    if (gameInterval) clearInterval(gameInterval);
     gameRunning = true;
     gameInterval = setInterval(gameLoop, GAME_SPEED);
     
@@ -192,6 +231,7 @@ function render() {
 function gameOver() {
     gameRunning = false;
     clearInterval(gameInterval);
+    gameInterval = null;
     finalScoreElement.textContent = score;
     gameOverElement.classList.remove('hidden');
 }
@@ -226,7 +266,6 @@ function handleKeydown(e) {
 
 // Event listeners
 document.addEventListener('keydown', handleKeydown);
-restartButton.addEventListener('click', initGame);
 
 // Touch controls
 upButton.addEventListener('click', () => {
@@ -255,7 +294,18 @@ rightButton.addEventListener('click', () => {
 
 // Initialize the game when the page loads
 window.addEventListener('load', () => {
+    // Initialize DOM elements first
+    initDOMElements();
+    
     // Ensure game over screen is hidden on initial load
-    gameOverElement.classList.add('hidden');
+    if (gameOverElement) {
+        gameOverElement.classList.add('hidden');
+    }
+    
+    // Reset game state
+    gameRunning = false;
+    if (gameInterval) clearInterval(gameInterval);
+    
+    // Start the game
     initGame();
 });
