@@ -56,8 +56,10 @@ function initDOMElements() {
             // Reset game state
             gameRunning = false;
             if (gameInterval) clearInterval(gameInterval);
-            // Then initialize the game
-            initGame();
+            // Then initialize the game after a small delay to ensure DOM updates
+            setTimeout(() => {
+                initGame();
+            }, 50);
         });
     }
 }
@@ -67,6 +69,7 @@ function initGame() {
     // Make sure game over screen is hidden
     if (gameOverElement) {
         gameOverElement.classList.add('hidden');
+        gameOverElement.style.display = 'none';
     }
     
     // Clear the game board
@@ -233,6 +236,8 @@ function gameOver() {
     clearInterval(gameInterval);
     gameInterval = null;
     finalScoreElement.textContent = score;
+    // Make sure the game over screen is visible
+    gameOverElement.style.display = 'flex';
     gameOverElement.classList.remove('hidden');
 }
 
@@ -297,15 +302,24 @@ window.addEventListener('load', () => {
     // Initialize DOM elements first
     initDOMElements();
     
-    // Ensure game over screen is hidden on initial load
-    if (gameOverElement) {
-        gameOverElement.classList.add('hidden');
-    }
-    
     // Reset game state
     gameRunning = false;
     if (gameInterval) clearInterval(gameInterval);
     
-    // Start the game
-    initGame();
+    // Make sure game over screen is properly hidden before starting the game
+    if (gameOverElement) {
+        // Force the game over element to be hidden
+        gameOverElement.style.display = 'none';
+        gameOverElement.classList.add('hidden');
+    }
+    
+    // Start the game after a small delay to ensure DOM is fully processed
+    setTimeout(() => {
+        // Double-check that game over is hidden before starting
+        if (gameOverElement) {
+            gameOverElement.classList.add('hidden');
+            gameOverElement.style.display = 'none';
+        }
+        initGame();
+    }, 100);
 });
