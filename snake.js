@@ -210,9 +210,10 @@ function draw() {
         ctx.closePath();
         ctx.fill();
         
-        // Draw eyes on the head
+        // Draw eyes and tongue on the head
         if (index === 0) {
             drawSnakeEyes(segment);
+            drawSnakeTongue(segment);
         }
         
         // Restore the context state
@@ -221,6 +222,76 @@ function draw() {
     
     // Draw food
     drawFood();
+}
+
+// Draw snake tongue based on direction
+function drawSnakeTongue(head) {
+    const tongueLength = GRID_SIZE * 0.6; // Length of the tongue
+    const tongueWidth = GRID_SIZE / 15; // Width of the tongue
+    const forkLength = GRID_SIZE * 0.2; // Length of the fork
+    const forkAngle = Math.PI / 6; // Angle of the fork (30 degrees)
+    
+    // Calculate the starting position of the tongue based on direction
+    let startX, startY;
+    let angleOffset = 0;
+    
+    switch (direction) {
+        case 'up':
+            startX = head.x * GRID_SIZE + GRID_SIZE / 2;
+            startY = head.y * GRID_SIZE;
+            angleOffset = -Math.PI / 2; // -90 degrees
+            break;
+        case 'down':
+            startX = head.x * GRID_SIZE + GRID_SIZE / 2;
+            startY = head.y * GRID_SIZE + GRID_SIZE;
+            angleOffset = Math.PI / 2; // 90 degrees
+            break;
+        case 'left':
+            startX = head.x * GRID_SIZE;
+            startY = head.y * GRID_SIZE + GRID_SIZE / 2;
+            angleOffset = Math.PI; // 180 degrees
+            break;
+        case 'right':
+            startX = head.x * GRID_SIZE + GRID_SIZE;
+            startY = head.y * GRID_SIZE + GRID_SIZE / 2;
+            angleOffset = 0; // 0 degrees
+            break;
+    }
+    
+    // Calculate the end point of the tongue
+    const endX = startX + Math.cos(angleOffset) * tongueLength;
+    const endY = startY + Math.sin(angleOffset) * tongueLength;
+    
+    // Calculate the fork points
+    const fork1X = endX + Math.cos(angleOffset + forkAngle) * forkLength;
+    const fork1Y = endY + Math.sin(angleOffset + forkAngle) * forkLength;
+    const fork2X = endX + Math.cos(angleOffset - forkAngle) * forkLength;
+    const fork2Y = endY + Math.sin(angleOffset - forkAngle) * forkLength;
+    
+    // Draw the tongue
+    ctx.save();
+    ctx.strokeStyle = '#ff0000'; // Bright red color
+    ctx.lineWidth = tongueWidth;
+    ctx.lineCap = 'round';
+    
+    // Draw the main part of the tongue
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
+    ctx.stroke();
+    
+    // Draw the fork
+    ctx.beginPath();
+    ctx.moveTo(endX, endY);
+    ctx.lineTo(fork1X, fork1Y);
+    ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.moveTo(endX, endY);
+    ctx.lineTo(fork2X, fork2Y);
+    ctx.stroke();
+    
+    ctx.restore();
 }
 
 // Draw snake eyes based on direction
