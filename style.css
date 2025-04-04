@@ -9,7 +9,7 @@ body {
     justify-content: center;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
     color: white;
@@ -47,8 +47,8 @@ h1 {
 }
 
 #game-canvas {
-    border: 3px solid #2c3e50;
-    background-color: rgba(236, 240, 241, 0.9);
+    border: 3px solid #203a43;
+    background-color: rgba(220, 237, 245, 0.9);
     display: block;
 }
 
@@ -66,7 +66,7 @@ h1 {
 
 #score, #high-score {
     font-weight: bold;
-    color: #f1c40f;
+    color: #4ecdc4;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -87,7 +87,7 @@ h1 {
     height: 60px;
     margin: 0 5px;
     font-size: 24px;
-    background: linear-gradient(145deg, #3498db, #2980b9);
+    background: linear-gradient(145deg, #4ecdc4, #2a9d8f);
     color: white;
     border: none;
     border-radius: 50%;
@@ -102,7 +102,7 @@ h1 {
 .control-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(145deg, #2980b9, #3498db);
+    background: linear-gradient(145deg, #2a9d8f, #4ecdc4);
 }
 
 .control-btn:active {
@@ -113,7 +113,7 @@ h1 {
 #start-btn {
     padding: 12px 25px;
     font-size: 18px;
-    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    background: linear-gradient(145deg, #ff6b6b, #ee5253);
     color: white;
     border: none;
     border-radius: 30px;
@@ -128,7 +128,7 @@ h1 {
 #start-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(145deg, #27ae60, #2ecc71);
+    background: linear-gradient(145deg, #ee5253, #ff6b6b);
 }
 
 #start-btn:active {
@@ -141,7 +141,7 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(145deg, rgba(44, 62, 80, 0.95), rgba(52, 73, 94, 0.95));
+    background: linear-gradient(145deg, rgba(15, 32, 39, 0.95), rgba(32, 58, 67, 0.95));
     color: white;
     padding: 30px;
     border-radius: 15px;
@@ -159,7 +159,7 @@ h1 {
 
 #game-over h2 {
     margin-top: 0;
-    color: #e74c3c;
+    color: #ff6b6b;
     font-size: 2rem;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
@@ -167,12 +167,12 @@ h1 {
 #final-score {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #f1c40f;
+    color: #4ecdc4;
 }
 
 #restart-btn {
     padding: 10px 20px;
-    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    background: linear-gradient(145deg, #ff6b6b, #ee5253);
     color: white;
     border: none;
     border-radius: 30px;
@@ -187,7 +187,7 @@ h1 {
 #restart-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(145deg, #c0392b, #e74c3c);
+    background: linear-gradient(145deg, #ee5253, #ff6b6b);
 }
 
 /* Animation for food */

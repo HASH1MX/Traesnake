@@ -164,26 +164,59 @@ function draw() {
     
     // Draw snake
     snake.forEach((segment, index) => {
-        // Use different color for head
+        // Save the current context state
+        ctx.save();
+        
+        // Calculate segment position
+        const x = segment.x * GRID_SIZE;
+        const y = segment.y * GRID_SIZE;
+        const radius = GRID_SIZE / 5; // Rounded corner radius
+        
+        // Determine segment type and set appropriate style
         if (index === 0) {
-            ctx.fillStyle = '#e74c3c'; // Red for head
+            // Head segment with gradient
+            const gradient = ctx.createRadialGradient(
+                x + GRID_SIZE/2, y + GRID_SIZE/2, GRID_SIZE/6,
+                x + GRID_SIZE/2, y + GRID_SIZE/2, GRID_SIZE/1.2
+            );
+            gradient.addColorStop(0, '#ff8c8c');
+            gradient.addColorStop(1, '#ff4040');
+            ctx.fillStyle = gradient;
         } else {
-            // Gradient from dark to light green for body
-            const greenValue = Math.floor(150 - (index * 3));
-            ctx.fillStyle = `rgb(46, ${Math.max(greenValue, 100)}, 113)`;
+            // Body segments with gradient based on position
+            const hue = 190; // Base blue-green hue
+            const saturation = 80; // Vibrant but not too bright
+            const lightness = Math.max(60 - (index * 1.5), 40); // Gradient from lighter to darker
+            ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            
+            // Add subtle shadow for 3D effect
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+            ctx.shadowBlur = 3;
+            ctx.shadowOffsetX = 1;
+            ctx.shadowOffsetY = 1;
         }
         
-        ctx.fillRect(
-            segment.x * GRID_SIZE, 
-            segment.y * GRID_SIZE, 
-            GRID_SIZE, 
-            GRID_SIZE
-        );
+        // Draw rounded rectangle for segment
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + GRID_SIZE - radius, y);
+        ctx.quadraticCurveTo(x + GRID_SIZE, y, x + GRID_SIZE, y + radius);
+        ctx.lineTo(x + GRID_SIZE, y + GRID_SIZE - radius);
+        ctx.quadraticCurveTo(x + GRID_SIZE, y + GRID_SIZE, x + GRID_SIZE - radius, y + GRID_SIZE);
+        ctx.lineTo(x + radius, y + GRID_SIZE);
+        ctx.quadraticCurveTo(x, y + GRID_SIZE, x, y + GRID_SIZE - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+        ctx.fill();
         
         // Draw eyes on the head
         if (index === 0) {
             drawSnakeEyes(segment);
         }
+        
+        // Restore the context state
+        ctx.restore();
     });
     
     // Draw food
@@ -192,12 +225,12 @@ function draw() {
 
 // Draw snake eyes based on direction
 function drawSnakeEyes(head) {
-    ctx.fillStyle = 'white';
-    
-    const eyeSize = GRID_SIZE / 5;
+    const eyeSize = GRID_SIZE / 4.5;
     const eyeOffset = GRID_SIZE / 3;
+    const pupilSize = eyeSize / 2;
     
     let leftEyeX, leftEyeY, rightEyeX, rightEyeY;
+    let pupilOffsetX = 0, pupilOffsetY = 0;
     
     switch (direction) {
         case 'up':
@@ -205,51 +238,130 @@ function drawSnakeEyes(head) {
             leftEyeY = head.y * GRID_SIZE + eyeOffset;
             rightEyeX = head.x * GRID_SIZE + GRID_SIZE - eyeOffset - eyeSize;
             rightEyeY = head.y * GRID_SIZE + eyeOffset;
+            pupilOffsetY = -pupilSize / 3; // Look up
             break;
         case 'down':
             leftEyeX = head.x * GRID_SIZE + eyeOffset;
             leftEyeY = head.y * GRID_SIZE + GRID_SIZE - eyeOffset - eyeSize;
             rightEyeX = head.x * GRID_SIZE + GRID_SIZE - eyeOffset - eyeSize;
             rightEyeY = head.y * GRID_SIZE + GRID_SIZE - eyeOffset - eyeSize;
+            pupilOffsetY = pupilSize / 3; // Look down
             break;
         case 'left':
             leftEyeX = head.x * GRID_SIZE + eyeOffset;
             leftEyeY = head.y * GRID_SIZE + eyeOffset;
             rightEyeX = head.x * GRID_SIZE + eyeOffset;
             rightEyeY = head.y * GRID_SIZE + GRID_SIZE - eyeOffset - eyeSize;
+            pupilOffsetX = -pupilSize / 3; // Look left
             break;
         case 'right':
             leftEyeX = head.x * GRID_SIZE + GRID_SIZE - eyeOffset - eyeSize;
             leftEyeY = head.y * GRID_SIZE + eyeOffset;
             rightEyeX = head.x * GRID_SIZE + GRID_SIZE - eyeOffset - eyeSize;
             rightEyeY = head.y * GRID_SIZE + GRID_SIZE - eyeOffset - eyeSize;
+            pupilOffsetX = pupilSize / 3; // Look right
             break;
     }
     
-    // Draw eyes
-    ctx.fillRect(leftEyeX, leftEyeY, eyeSize, eyeSize);
-    ctx.fillRect(rightEyeX, rightEyeY, eyeSize, eyeSize);
-}
-
-// Draw the food
-function drawFood() {
-    ctx.fillStyle = '#f1c40f'; // Yellow color for food
+    // Draw eye whites (circles)
+    ctx.fillStyle = 'white';
     
-    // Draw a circle for the food
+    // Left eye
+    ctx.beginPath();
+    ctx.arc(leftEyeX + eyeSize/2, leftEyeY + eyeSize/2, eyeSize/2, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Right eye
+    ctx.beginPath();
+    ctx.arc(rightEyeX + eyeSize/2, rightEyeY + eyeSize/2, eyeSize/2, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Draw pupils (smaller circles)
+    ctx.fillStyle = '#333';
+    
+    // Left pupil
     ctx.beginPath();
     ctx.arc(
-        food.x * GRID_SIZE + GRID_SIZE / 2,
-        food.y * GRID_SIZE + GRID_SIZE / 2,
-        GRID_SIZE / 2,
-        0,
-        Math.PI * 2
+        leftEyeX + eyeSize/2 + pupilOffsetX, 
+        leftEyeY + eyeSize/2 + pupilOffsetY, 
+        pupilSize, 0, Math.PI * 2
+    );
+    ctx.fill();
+    
+    // Right pupil
+    ctx.beginPath();
+    ctx.arc(
+        rightEyeX + eyeSize/2 + pupilOffsetX, 
+        rightEyeY + eyeSize/2 + pupilOffsetY, 
+        pupilSize, 0, Math.PI * 2
+    );
+    ctx.fill();
+    
+    // Add shine to eyes
+    ctx.fillStyle = 'white';
+    
+    // Left eye shine
+    ctx.beginPath();
+    ctx.arc(
+        leftEyeX + eyeSize/2 + pupilOffsetX/2 - pupilSize/2, 
+        leftEyeY + eyeSize/2 + pupilOffsetY/2 - pupilSize/2, 
+        pupilSize/3, 0, Math.PI * 2
+    );
+    ctx.fill();
+    
+    // Right eye shine
+    ctx.beginPath();
+    ctx.arc(
+        rightEyeX + eyeSize/2 + pupilOffsetX/2 - pupilSize/2, 
+        rightEyeY + eyeSize/2 + pupilOffsetY/2 - pupilSize/2, 
+        pupilSize/3, 0, Math.PI * 2
     );
     ctx.fill();
 }
 
+// Draw the food
+function drawFood() {
+    // Save context state
+    ctx.save();
+    
+    // Create a radial gradient for the food
+    const centerX = food.x * GRID_SIZE + GRID_SIZE / 2;
+    const centerY = food.y * GRID_SIZE + GRID_SIZE / 2;
+    const radius = GRID_SIZE / 2;
+    
+    const gradient = ctx.createRadialGradient(
+        centerX - radius/3, centerY - radius/3, radius/6,
+        centerX, centerY, radius
+    );
+    
+    gradient.addColorStop(0, '#fff9c4'); // Light yellow center
+    gradient.addColorStop(0.7, '#ffd54f'); // Golden yellow
+    gradient.addColorStop(1, '#ffb300'); // Darker amber edge
+    
+    ctx.fillStyle = gradient;
+    
+    // Add glow effect
+    ctx.shadowColor = 'rgba(255, 204, 0, 0.7)';
+    ctx.shadowBlur = 10;
+    
+    // Draw a circle for the food
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius * 0.85, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Add shine effect
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.beginPath();
+    ctx.arc(centerX - radius/3, centerY - radius/3, radius/4, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Restore context state
+    ctx.restore();
+}
+
 // Draw grid lines
 function drawGrid() {
-    ctx.strokeStyle = '#ecf0f1';
+    ctx.strokeStyle = '#a8dadc';
     ctx.lineWidth = 0.5;
     
     // Draw vertical lines
@@ -271,7 +383,7 @@ function drawGrid() {
 
 // Draw instructions on the canvas
 function drawInstructions() {
-    ctx.fillStyle = '#2c3e50';
+    ctx.fillStyle = '#4ecdc4';
     ctx.font = '20px Arial';
     ctx.textAlign = 'center';
     ctx.fillText('Press Start to Play', canvas.width / 2, canvas.height / 2 - 30);
