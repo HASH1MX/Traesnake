@@ -15,7 +15,7 @@ class ParticleSystem {
                 Math.random() * 4 - 2, // velocityX
                 Math.random() * 4 - 2, // velocityY
                 Math.random() * 5 + 3, // size
-                color || '#ffd166',
+                color || '#e03131', // Red apple color
                 Math.random() * 500 + 500 // lifespan
             ));
         }

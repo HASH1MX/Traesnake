@@ -334,14 +334,14 @@ function drawFood() {
         centerX, centerY, radius
     );
     
-    gradient.addColorStop(0, '#fff9c4'); // Light yellow center
-    gradient.addColorStop(0.7, '#ffd54f'); // Golden yellow
-    gradient.addColorStop(1, '#ffb300'); // Darker amber edge
+    gradient.addColorStop(0, '#f8bff8'); // Light purple center
+    gradient.addColorStop(0.7, '#e040fb'); // Vibrant magenta
+    gradient.addColorStop(1, '#aa00ff'); // Deep purple edge
     
     ctx.fillStyle = gradient;
     
     // Add glow effect
-    ctx.shadowColor = 'rgba(255, 204, 0, 0.7)';
+    ctx.shadowColor = 'rgba(224, 64, 251, 0.7)';
     ctx.shadowBlur = 10;
     
     // Draw a circle for the food
