@@ -6,41 +6,82 @@ function drawSegmentWithBorderCrossing(x, y, radius, headSegment) {
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
     
-    // Check if segment is near the border
-    const nearLeftBorder = x < GRID_SIZE;
-    const nearRightBorder = x > canvasWidth - GRID_SIZE * 2;
-    const nearTopBorder = y < GRID_SIZE;
-    const nearBottomBorder = y > canvasHeight - GRID_SIZE * 2;
+    // Create a more gradual transition zone for border crossing
+    // This will make the snake appear to be passing through the wall
+    const transitionZone = GRID_SIZE * 2; // Width of the transition zone
+    
+    // Calculate how far into the transition zone the segment is (0 to 1)
+    let leftTransition = 0;
+    let rightTransition = 0;
+    let topTransition = 0;
+    let bottomTransition = 0;
+    
+    // Check if segment is in transition zone near borders
+    if (x < transitionZone) {
+        leftTransition = x / transitionZone; // 0 at edge, 1 at inner boundary
+    } else if (x > canvasWidth - transitionZone) {
+        rightTransition = (canvasWidth - x) / transitionZone; // 0 at edge, 1 at inner boundary
+    }
+    
+    if (y < transitionZone) {
+        topTransition = y / transitionZone; // 0 at edge, 1 at inner boundary
+    } else if (y > canvasHeight - transitionZone) {
+        bottomTransition = (canvasHeight - y) / transitionZone; // 0 at edge, 1 at inner boundary
+    }
     
     // Draw the main segment
     drawSnakeSegment(x, y, radius, headSegment);
     
-    // Draw additional segments for border crossing effect
-    if (nearLeftBorder) {
-        // Draw segment appearing from right side
+    // Draw partial segments on the opposite sides with opacity based on transition
+    if (leftTransition > 0) {
+        // Draw segment appearing from right side with opacity
+        ctx.save();
+        ctx.globalAlpha = 1 - leftTransition; // More visible as it gets closer to the edge
         drawSnakeSegment(x + canvasWidth, y, radius, headSegment);
-    } else if (nearRightBorder) {
-        // Draw segment appearing from left side
+        ctx.restore();
+    } else if (rightTransition > 0) {
+        // Draw segment appearing from left side with opacity
+        ctx.save();
+        ctx.globalAlpha = 1 - rightTransition; // More visible as it gets closer to the edge
         drawSnakeSegment(x - canvasWidth, y, radius, headSegment);
+        ctx.restore();
     }
     
-    if (nearTopBorder) {
-        // Draw segment appearing from bottom side
+    if (topTransition > 0) {
+        // Draw segment appearing from bottom side with opacity
+        ctx.save();
+        ctx.globalAlpha = 1 - topTransition; // More visible as it gets closer to the edge
         drawSnakeSegment(x, y + canvasHeight, radius, headSegment);
-    } else if (nearBottomBorder) {
-        // Draw segment appearing from top side
+        ctx.restore();
+    } else if (bottomTransition > 0) {
+        // Draw segment appearing from top side with opacity
+        ctx.save();
+        ctx.globalAlpha = 1 - bottomTransition; // More visible as it gets closer to the edge
         drawSnakeSegment(x, y - canvasHeight, radius, headSegment);
+        ctx.restore();
     }
     
     // Handle corner cases (when crossing both horizontally and vertically)
-    if (nearLeftBorder && nearTopBorder) {
+    if (leftTransition > 0 && topTransition > 0) {
+        ctx.save();
+        ctx.globalAlpha = (1 - leftTransition) * (1 - topTransition); // Combined opacity
         drawSnakeSegment(x + canvasWidth, y + canvasHeight, radius, headSegment);
-    } else if (nearLeftBorder && nearBottomBorder) {
+        ctx.restore();
+    } else if (leftTransition > 0 && bottomTransition > 0) {
+        ctx.save();
+        ctx.globalAlpha = (1 - leftTransition) * (1 - bottomTransition); // Combined opacity
         drawSnakeSegment(x + canvasWidth, y - canvasHeight, radius, headSegment);
-    } else if (nearRightBorder && nearTopBorder) {
+        ctx.restore();
+    } else if (rightTransition > 0 && topTransition > 0) {
+        ctx.save();
+        ctx.globalAlpha = (1 - rightTransition) * (1 - topTransition); // Combined opacity
         drawSnakeSegment(x - canvasWidth, y + canvasHeight, radius, headSegment);
-    } else if (nearRightBorder && nearBottomBorder) {
+        ctx.restore();
+    } else if (rightTransition > 0 && bottomTransition > 0) {
+        ctx.save();
+        ctx.globalAlpha = (1 - rightTransition) * (1 - bottomTransition); // Combined opacity
         drawSnakeSegment(x - canvasWidth, y - canvasHeight, radius, headSegment);
+        ctx.restore();
     }
 }
 
