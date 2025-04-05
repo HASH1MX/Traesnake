@@ -58,11 +58,27 @@ function init() {
     startButton.addEventListener('click', startGame);
     restartButton.addEventListener('click', restartGame);
     
-    // Touch controls
-    upButton.addEventListener('click', () => changeDirection('up'));
-    downButton.addEventListener('click', () => changeDirection('down'));
-    leftButton.addEventListener('click', () => changeDirection('left'));
-    rightButton.addEventListener('click', () => changeDirection('right'));
+    // Touch controls with visual feedback
+    upButton.addEventListener('click', () => {
+        upButton.classList.add('pressed');
+        changeDirection('up');
+        setTimeout(() => upButton.classList.remove('pressed'), 150);
+    });
+    downButton.addEventListener('click', () => {
+        downButton.classList.add('pressed');
+        changeDirection('down');
+        setTimeout(() => downButton.classList.remove('pressed'), 150);
+    });
+    leftButton.addEventListener('click', () => {
+        leftButton.classList.add('pressed');
+        changeDirection('left');
+        setTimeout(() => leftButton.classList.remove('pressed'), 150);
+    });
+    rightButton.addEventListener('click', () => {
+        rightButton.classList.add('pressed');
+        changeDirection('right');
+        setTimeout(() => rightButton.classList.remove('pressed'), 150);
+    });
     
     // Load sounds
     loadSounds();
@@ -576,18 +592,22 @@ function handleKeyPress(e) {
     switch (e.keyCode) {
         case 38: // Up arrow
         case 87: // W key
+            upButton.classList.add('pressed');
             changeDirection('up');
             break;
         case 40: // Down arrow
         case 83: // S key
+            downButton.classList.add('pressed');
             changeDirection('down');
             break;
         case 37: // Left arrow
         case 65: // A key
+            leftButton.classList.add('pressed');
             changeDirection('left');
             break;
         case 39: // Right arrow
         case 68: // D key
+            rightButton.classList.add('pressed');
             changeDirection('right');
             break;
         case 32: // Space bar
@@ -596,6 +616,14 @@ function handleKeyPress(e) {
             }
             break;
     }
+    
+    // Remove the pressed class after a short delay
+    setTimeout(() => {
+        upButton.classList.remove('pressed');
+        downButton.classList.remove('pressed');
+        leftButton.classList.remove('pressed');
+        rightButton.classList.remove('pressed');
+    }, 150);
 }
 
 // Change snake direction

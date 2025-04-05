@@ -106,9 +106,10 @@ h1 {
     background: linear-gradient(145deg, #2a9d8f, #4ecdc4);
 }
 
-.control-btn:active {
+.control-btn:active, .control-btn.pressed {
     transform: translateY(1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, #1a8d7f, #3abdb4);
 }
 
 #start-btn {
