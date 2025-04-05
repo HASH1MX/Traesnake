@@ -539,7 +539,7 @@ function drawObstacles() {
 
 // Draw grid lines
 function drawGrid() {
-    ctx.strokeStyle = '#e8f5e9';
+    ctx.strokeStyle = '#d7f4d7'; // Very light green color for grid lines
     ctx.lineWidth = 0.5;
     
     // Draw vertical lines
