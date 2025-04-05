@@ -7,11 +7,13 @@ const GRID_HEIGHT = 400 / GRID_SIZE; // Number of cells vertically
 const INITIAL_SNAKE_LENGTH = 3; // Starting length of the snake
 const GAME_SPEED = 150; // Milliseconds between game updates (lower = faster)
 const ANIMATION_SPEED = 0.15; // Animation interpolation speed (higher = faster)
+const OBSTACLE_COUNT = 5; // Number of obstacles to generate
 
 // Game variables
 let canvas, ctx;
 let snake = [];
 let food = {};
+let obstacles = []; // Array to store obstacle positions
 let direction = 'right';
 let nextDirection = 'right';
 let score = 0;
@@ -101,6 +103,7 @@ function startGame() {
     
     // Reset game state
     snake = [];
+    obstacles = [];
     score = 0;
     direction = 'right';
     nextDirection = 'right';
@@ -124,6 +127,9 @@ function startGame() {
     
     // Create first food
     createFood();
+    
+    // Create obstacles
+    createObstacles();
     
     // Start game loop with requestAnimationFrame
     isGameRunning = true;
@@ -242,6 +248,9 @@ function draw() {
     
     // Draw grid
     drawGrid();
+    
+    // Draw obstacles
+    drawObstacles();
     
     // Draw snake using interpolated positions
     snake.forEach((segment, index) => {
@@ -511,6 +520,39 @@ function drawFood() {
     ctx.restore();
 }
 
+// Draw obstacles
+function drawObstacles() {
+    // Save context state
+    ctx.save();
+    
+    // Set obstacle style
+    ctx.fillStyle = '#333333'; // Dark gray color for obstacles
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = 5;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    
+    // Draw each obstacle
+    obstacles.forEach(obstacle => {
+        const x = obstacle.x * GRID_SIZE;
+        const y = obstacle.y * GRID_SIZE;
+        
+        // Draw obstacle as a solid square
+        ctx.fillRect(x, y, GRID_SIZE, GRID_SIZE);
+        
+        // Add some texture/pattern to make obstacles look more interesting
+        ctx.fillStyle = '#222222'; // Slightly darker for texture
+        
+        // Draw a small pattern inside the obstacle
+        const patternSize = GRID_SIZE / 5;
+        ctx.fillRect(x + patternSize, y + patternSize, 
+                    GRID_SIZE - patternSize * 2, GRID_SIZE - patternSize * 2);
+    });
+    
+    // Restore context state
+    ctx.restore();
+}
+
 // Draw grid lines
 function drawGrid() {
     ctx.strokeStyle = '#a8dadc';
@@ -554,9 +596,50 @@ function createFood() {
             x: Math.floor(Math.random() * GRID_WIDTH),
             y: Math.floor(Math.random() * GRID_HEIGHT)
         };
-    } while (isFoodOnSnake(newFood));
+    } while (isFoodOnSnake(newFood) || isPositionOnObstacle(newFood));
     
     food = newFood;
+}
+
+// Create obstacles at random positions
+function createObstacles() {
+    obstacles = [];
+    
+    // Generate OBSTACLE_COUNT obstacles
+    for (let i = 0; i < OBSTACLE_COUNT; i++) {
+        let newObstacle;
+        let attempts = 0;
+        const maxAttempts = 50; // Prevent infinite loop
+        
+        do {
+            newObstacle = {
+                x: Math.floor(Math.random() * GRID_WIDTH),
+                y: Math.floor(Math.random() * GRID_HEIGHT)
+            };
+            attempts++;
+            
+            // If we've tried too many times, break to prevent infinite loop
+            if (attempts > maxAttempts) break;
+            
+        } while (isPositionOnSnake(newObstacle) || 
+                 (food.x === newObstacle.x && food.y === newObstacle.y) || 
+                 isPositionOnObstacle(newObstacle));
+        
+        // Only add the obstacle if we found a valid position
+        if (attempts <= maxAttempts) {
+            obstacles.push(newObstacle);
+        }
+    }
+}
+
+// Check if a position is on any obstacle
+function isPositionOnObstacle(pos) {
+    return obstacles.some(obstacle => obstacle.x === pos.x && obstacle.y === pos.y);
+}
+
+// Check if a position is on the snake
+function isPositionOnSnake(pos) {
+    return snake.some(segment => segment.x === pos.x && segment.y === pos.y);
 }
 
 // Check if food position overlaps with snake
@@ -564,10 +647,15 @@ function isFoodOnSnake(pos) {
     return snake.some(segment => segment.x === pos.x && segment.y === pos.y);
 }
 
-// Check for collisions with walls or self
+// Check for collisions with walls, obstacles, or self
 function isCollision(pos) {
     // Check wall collisions
     if (pos.x < 0 || pos.x >= GRID_WIDTH || pos.y < 0 || pos.y >= GRID_HEIGHT) {
+        return true;
+    }
+    
+    // Check obstacle collisions
+    if (isPositionOnObstacle(pos)) {
         return true;
     }
     
