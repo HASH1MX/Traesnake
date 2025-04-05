@@ -649,9 +649,17 @@ function isFoodOnSnake(pos) {
 
 // Check for collisions with walls, obstacles, or self
 function isCollision(pos) {
-    // Check wall collisions
-    if (pos.x < 0 || pos.x >= GRID_WIDTH || pos.y < 0 || pos.y >= GRID_HEIGHT) {
-        return true;
+    // Teleport at borders instead of collision
+    if (pos.x < 0) {
+        pos.x = GRID_WIDTH - 1;
+    } else if (pos.x >= GRID_WIDTH) {
+        pos.x = 0;
+    }
+    
+    if (pos.y < 0) {
+        pos.y = GRID_HEIGHT - 1;
+    } else if (pos.y >= GRID_HEIGHT) {
+        pos.y = 0;
     }
     
     // Check obstacle collisions
