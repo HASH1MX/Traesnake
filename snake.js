@@ -269,14 +269,14 @@ function draw() {
                 x + GRID_SIZE/2, y + GRID_SIZE/2, GRID_SIZE/6,
                 x + GRID_SIZE/2, y + GRID_SIZE/2, GRID_SIZE/1.2
             );
-            gradient.addColorStop(0, '#ff8c8c');
-            gradient.addColorStop(1, '#ff4040');
+            gradient.addColorStop(0, '#a5d6a7');
+            gradient.addColorStop(1, '#66bb6a');
             ctx.fillStyle = gradient;
         } else {
             // Body segments with gradient based on position
-            const hue = 190; // Base blue-green hue
-            const saturation = 80; // Vibrant but not too bright
-            const lightness = Math.max(60 - (index * 1.5), 40); // Gradient from lighter to darker
+            const hue = 120; // Base green hue
+            const saturation = 70; // Vibrant but not too bright
+            const lightness = Math.max(70 - (index * 1.5), 50); // Gradient from lighter to darker
             ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
             
             // Add subtle shadow for 3D effect
@@ -478,14 +478,14 @@ function drawFood() {
         centerX, centerY, radius
     );
     
-    gradient.addColorStop(0, '#f8bff8'); // Light purple center
-    gradient.addColorStop(0.7, '#e040fb'); // Vibrant magenta
-    gradient.addColorStop(1, '#aa00ff'); // Deep purple edge
+    gradient.addColorStop(0, '#ffffff'); // White center
+    gradient.addColorStop(0.7, '#c8e6c9'); // Light green
+    gradient.addColorStop(1, '#81c784'); // Medium green edge
     
     ctx.fillStyle = gradient;
     
     // Add glow effect
-    ctx.shadowColor = 'rgba(224, 64, 251, 0.7)';
+    ctx.shadowColor = 'rgba(129, 199, 132, 0.7)';
     ctx.shadowBlur = 10;
     
     // Draw a circle for the food
@@ -509,8 +509,8 @@ function drawObstacles() {
     ctx.save();
     
     // Set obstacle style
-    ctx.fillStyle = '#333333'; // Dark gray color for obstacles
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillStyle = '#388e3c'; // Dark green color for obstacles
+    ctx.shadowColor = 'rgba(46, 125, 50, 0.5)';
     ctx.shadowBlur = 5;
     ctx.shadowOffsetX = 2;
     ctx.shadowOffsetY = 2;
@@ -528,6 +528,7 @@ function drawObstacles() {
         
         // Draw a small pattern inside the obstacle
         const patternSize = GRID_SIZE / 5;
+        ctx.fillStyle = '#2e7d32'; // Darker green for inner pattern
         ctx.fillRect(x + patternSize, y + patternSize, 
                     GRID_SIZE - patternSize * 2, GRID_SIZE - patternSize * 2);
     });
@@ -538,7 +539,7 @@ function drawObstacles() {
 
 // Draw grid lines
 function drawGrid() {
-    ctx.strokeStyle = '#a8dadc';
+    ctx.strokeStyle = '#e8f5e9';
     ctx.lineWidth = 0.5;
     
     // Draw vertical lines
@@ -560,7 +561,7 @@ function drawGrid() {
 
 // Draw instructions on the canvas
 function drawInstructions() {
-    ctx.fillStyle = '#4ecdc4';
+    ctx.fillStyle = '#2e7d32';
     ctx.font = '20px Arial';
     ctx.textAlign = 'center';
     ctx.fillText('Press Start to Play', canvas.width / 2, canvas.height / 2 - 30);
