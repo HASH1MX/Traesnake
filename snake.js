@@ -6,6 +6,7 @@ const GRID_WIDTH = 400 / GRID_SIZE; // Number of cells horizontally
 const GRID_HEIGHT = 400 / GRID_SIZE; // Number of cells vertically
 const INITIAL_SNAKE_LENGTH = 3; // Starting length of the snake
 const GAME_SPEED = 150; // Milliseconds between game updates (lower = faster)
+const ANIMATION_SPEED = 0.15; // Animation interpolation speed (higher = faster)
 
 // Game variables
 let canvas, ctx;
@@ -15,10 +16,15 @@ let direction = 'right';
 let nextDirection = 'right';
 let score = 0;
 let highScore = localStorage.getItem('snakeHighScore') || 0;
-let gameInterval;
+let lastUpdateTime = 0;
+let timeSinceLastUpdate = 0;
+let animationFrameId;
 let isGameRunning = false;
 let gameOverScreen;
 let soundsEnabled = true;
+
+// Animation variables
+let snakePositions = []; // For interpolation
 
 // Sound effects (will be loaded later)
 let eatSound, gameOverSound, moveSound;
@@ -84,19 +90,30 @@ function startGame() {
     nextDirection = 'right';
     scoreElement.textContent = '0';
     gameOverScreen.style.display = 'none';
+    lastUpdateTime = 0;
+    timeSinceLastUpdate = 0;
     
     // Create initial snake
     for (let i = INITIAL_SNAKE_LENGTH - 1; i >= 0; i--) {
         snake.push({ x: i, y: 0 });
     }
     
+    // Initialize snake positions for smooth animation
+    snakePositions = snake.map(segment => ({
+        x: segment.x * GRID_SIZE,
+        y: segment.y * GRID_SIZE,
+        targetX: segment.x * GRID_SIZE,
+        targetY: segment.y * GRID_SIZE
+    }));
+    
     // Create first food
     createFood();
     
-    // Start game loop
+    // Start game loop with requestAnimationFrame
     isGameRunning = true;
     startButton.textContent = 'Game Running';
-    gameInterval = setInterval(gameLoop, GAME_SPEED);
+    lastUpdateTime = performance.now();
+    animationFrameId = requestAnimationFrame(animationLoop);
 }
 
 // Restart the game
@@ -105,10 +122,58 @@ function restartGame() {
     startGame();
 }
 
-// Main game loop
-function gameLoop() {
-    update();
+// Animation loop using requestAnimationFrame
+function animationLoop(timestamp) {
+    if (!isGameRunning) return;
+    
+    // Calculate delta time
+    const deltaTime = timestamp - lastUpdateTime;
+    lastUpdateTime = timestamp;
+    
+    // Accumulate time since last game update
+    timeSinceLastUpdate += deltaTime;
+    
+    // Update game state at fixed intervals
+    if (timeSinceLastUpdate >= GAME_SPEED) {
+        update();
+        timeSinceLastUpdate = 0;
+    }
+    
+    // Update visual positions with interpolation
+    updateSnakePositions(deltaTime);
+    
+    // Draw the game
     draw();
+    
+    // Continue the animation loop
+    animationFrameId = requestAnimationFrame(animationLoop);
+}
+
+// Update snake visual positions with interpolation
+function updateSnakePositions(deltaTime) {
+    // Ensure snakePositions array is initialized and has the correct length
+    if (snakePositions.length !== snake.length) {
+        snakePositions = snake.map(segment => ({
+            x: segment.x * GRID_SIZE,
+            y: segment.y * GRID_SIZE,
+            targetX: segment.x * GRID_SIZE,
+            targetY: segment.y * GRID_SIZE
+        }));
+    }
+    
+    // Update each segment's position with smooth interpolation
+    for (let i = 0; i < snake.length; i++) {
+        const targetX = snake[i].x * GRID_SIZE;
+        const targetY = snake[i].y * GRID_SIZE;
+        
+        // Update target positions
+        snakePositions[i].targetX = targetX;
+        snakePositions[i].targetY = targetY;
+        
+        // Interpolate current position towards target
+        snakePositions[i].x += (targetX - snakePositions[i].x) * ANIMATION_SPEED * (deltaTime / 16);
+        snakePositions[i].y += (targetY - snakePositions[i].y) * ANIMATION_SPEED * (deltaTime / 16);
+    }
 }
 
 // Update game state
@@ -162,14 +227,14 @@ function draw() {
     // Draw grid
     drawGrid();
     
-    // Draw snake
+    // Draw snake using interpolated positions
     snake.forEach((segment, index) => {
         // Save the current context state
         ctx.save();
         
-        // Calculate segment position
-        const x = segment.x * GRID_SIZE;
-        const y = segment.y * GRID_SIZE;
+        // Use interpolated position for smoother movement
+        const x = snakePositions[index] ? snakePositions[index].x : segment.x * GRID_SIZE;
+        const y = snakePositions[index] ? snakePositions[index].y : segment.y * GRID_SIZE;
         const radius = GRID_SIZE / 5; // Rounded corner radius
         
         // Determine segment type and set appropriate style
@@ -556,7 +621,7 @@ function changeDirection(newDirection) {
 
 // Game over
 function gameOver() {
-    clearInterval(gameInterval);
+    cancelAnimationFrame(animationFrameId);
     isGameRunning = false;
     startButton.textContent = 'Start Game';
     
