@@ -539,8 +539,8 @@ function drawObstacles() {
 
 // Draw grid lines
 function drawGrid() {
-    ctx.strokeStyle = '#d7f4d7'; // Very light green color for grid lines
-    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = '#8bc34a'; // Darker green color for grid lines
+    ctx.lineWidth = 0.8;
     
     // Draw vertical lines
     for (let x = 0; x <= canvas.width; x += GRID_SIZE) {

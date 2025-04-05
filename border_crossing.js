@@ -8,7 +8,7 @@ function drawSegmentWithBorderCrossing(x, y, radius, headSegment) {
     
     // Create a more gradual transition zone for border crossing
     // This will make the snake appear to be passing through the wall
-    const transitionZone = GRID_SIZE * 2; // Width of the transition zone
+    const transitionZone = GRID_SIZE * 3; // Wider transition zone for smoother effect
     
     // Calculate how far into the transition zone the segment is (0 to 1)
     let leftTransition = 0;
@@ -21,6 +21,8 @@ function drawSegmentWithBorderCrossing(x, y, radius, headSegment) {
         leftTransition = x / transitionZone; // 0 at edge, 1 at inner boundary
     } else if (x > canvasWidth - transitionZone) {
         rightTransition = (canvasWidth - x) / transitionZone; // 0 at edge, 1 at inner boundary
+        // Ensure rightTransition is properly calculated and bounded
+        rightTransition = Math.max(0, Math.min(1, rightTransition));
     }
     
     if (y < transitionZone) {
