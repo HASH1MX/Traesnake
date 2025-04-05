@@ -286,25 +286,8 @@ function draw() {
             ctx.shadowOffsetY = 1;
         }
         
-        // Draw rounded rectangle for segment
-        ctx.beginPath();
-        ctx.moveTo(x + radius, y);
-        ctx.lineTo(x + GRID_SIZE - radius, y);
-        ctx.quadraticCurveTo(x + GRID_SIZE, y, x + GRID_SIZE, y + radius);
-        ctx.lineTo(x + GRID_SIZE, y + GRID_SIZE - radius);
-        ctx.quadraticCurveTo(x + GRID_SIZE, y + GRID_SIZE, x + GRID_SIZE - radius, y + GRID_SIZE);
-        ctx.lineTo(x + radius, y + GRID_SIZE);
-        ctx.quadraticCurveTo(x, y + GRID_SIZE, x, y + GRID_SIZE - radius);
-        ctx.lineTo(x, y + radius);
-        ctx.quadraticCurveTo(x, y, x + radius, y);
-        ctx.closePath();
-        ctx.fill();
-        
-        // Draw eyes and tongue on the head
-        if (index === 0) {
-            drawSnakeEyes(segment);
-            drawSnakeTongue(segment);
-        }
+        // Check if segment is crossing a border and draw accordingly
+        drawSegmentWithBorderCrossing(x, y, radius, index === 0 ? segment : null);
         
         // Restore the context state
         ctx.restore();
