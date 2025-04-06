@@ -221,8 +221,8 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(145deg, rgba(200, 230, 201, 0.95), rgba(165, 214, 167, 0.95));
-    color: #2e7d32;
+    background: var(--game-over-background);
+    color: var(--game-over-color);
     padding: 30px;
     border-radius: 15px;
     text-align: center;
@@ -239,15 +239,21 @@ h1 {
 
 #game-over h2 {
     margin-top: 0;
-    color: #2e7d32;
+    color: var(--game-over-color);
     font-size: 2rem;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#game-over p {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    color: var(--game-over-color);
 }
 
 #final-score {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #388e3c;
+    color: var(--game-over-color);
 }
 
 #restart-btn {
