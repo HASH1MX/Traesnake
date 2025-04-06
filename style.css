@@ -1,5 +1,54 @@
 /* Snake Game Styles */
 
+/* CSS Variables for theming */
+:root {
+    /* Background colors */
+    --body-background: linear-gradient(135deg, #e8f5e9, #c8e6c9, #a5d6a7);
+    --text-color: #2e7d32;
+    --heading-color: #2e7d32;
+    
+    /* Game container */
+    --game-container-background: linear-gradient(135deg, #2e7d32, #66bb6a, #2e7d32);
+    
+    /* Canvas and border */
+    --canvas-border: linear-gradient(45deg, #2e7d32, #66bb6a, #2e7d32);
+    --canvas-background: rgba(255, 255, 255, 0.9);
+    --canvas-shadow: rgba(46, 125, 50, 0.7);
+    --canvas-shadow-inner: rgba(46, 125, 50, 0.3);
+    --canvas-shadow-glow: rgba(46, 125, 50, 0.9);
+    --canvas-shadow-inner-glow: rgba(46, 125, 50, 0.5);
+    
+    /* Score container */
+    --score-background: rgba(129, 199, 132, 0.3);
+    --score-color: #2e7d32;
+    
+    /* Controls */
+    --control-background: linear-gradient(145deg, #81c784, #66bb6a);
+    --control-hover-background: linear-gradient(145deg, #66bb6a, #81c784);
+    --control-active-background: linear-gradient(145deg, #4caf50, #66bb6a);
+    --control-color: white;
+    
+    /* Buttons */
+    --button-background: linear-gradient(145deg, #66bb6a, #4caf50);
+    --button-hover-background: linear-gradient(145deg, #4caf50, #66bb6a);
+    --button-color: white;
+    
+    /* Game elements */
+    --snake-head-color: #388e3c;
+    --snake-body-color: #66bb6a;
+    --food-color: #f44336;
+    --obstacle-color: #795548;
+    --grid-line-color: rgba(46, 125, 50, 0.2);
+    
+    /* Game over screen */
+    --game-over-background: linear-gradient(145deg, rgba(200, 230, 201, 0.95), rgba(165, 214, 167, 0.95));
+    --game-over-color: #2e7d32;
+    
+    /* Theme switcher */
+    --theme-switcher-background: rgba(129, 199, 132, 0.3);
+    --theme-switcher-color: #2e7d32;
+}
+
 /* Base styles */
 body {
     font-family: 'Arial', sans-serif;
@@ -9,10 +58,10 @@ body {
     justify-content: center;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(135deg, #e8f5e9, #c8e6c9, #a5d6a7);
+    background: var(--body-background);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
-    color: #2e7d32;
+    color: var(--text-color);
     overflow: hidden;
 }
 
@@ -23,7 +72,7 @@ body {
 }
 
 h1 {
-    color: #2e7d32;
+    color: var(--heading-color);
     margin-bottom: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     font-size: 2.5rem;
@@ -45,7 +94,7 @@ h1 {
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     padding: 10px;
-    background: linear-gradient(135deg, #2e7d32, #66bb6a, #2e7d32);
+    background: var(--game-container-background);
     position: relative;
 }
 
@@ -68,17 +117,17 @@ h1 {
 
 #game-canvas {
     border: 8px solid;
-    border-image: linear-gradient(45deg, #2e7d32, #66bb6a, #2e7d32) 1;
+    border-image: var(--canvas-border) 1;
     border-radius: 12px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--canvas-background);
     display: block;
-    box-shadow: 0 0 15px rgba(46, 125, 50, 0.7), inset 0 0 8px rgba(46, 125, 50, 0.3);
+    box-shadow: 0 0 15px var(--canvas-shadow), inset 0 0 8px var(--canvas-shadow-inner);
     animation: border-glow 3s infinite alternate;
 }
 
 @keyframes border-glow {
-    0% { box-shadow: 0 0 15px rgba(46, 125, 50, 0.7), inset 0 0 8px rgba(46, 125, 50, 0.3); }
-    100% { box-shadow: 0 0 25px rgba(46, 125, 50, 0.9), inset 0 0 12px rgba(46, 125, 50, 0.5); }
+    0% { box-shadow: 0 0 15px var(--canvas-shadow), inset 0 0 8px var(--canvas-shadow-inner); }
+    100% { box-shadow: 0 0 25px var(--canvas-shadow-glow), inset 0 0 12px var(--canvas-shadow-inner-glow); }
 }
 
 #score-container {
@@ -87,16 +136,16 @@ h1 {
     width: 400px;
     margin-bottom: 15px;
     font-size: 18px;
-    background-color: rgba(129, 199, 132, 0.3);
+    background-color: var(--score-background);
     padding: 10px 15px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    color: #2e7d32; /* Set the text color for 'Score:' and 'High Score:' labels */
+    color: var(--score-color); /* Set the text color for 'Score:' and 'High Score:' labels */
 }
 
 #score, #high-score {
     font-weight: bold;
-    color: #2e7d32;
+    color: var(--score-color);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -259,6 +308,45 @@ h1 {
 
 #sound-toggle:hover {
     background: rgba(129, 199, 132, 0.5);
+}
+
+/* Theme switcher */
+#theme-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--theme-switcher-background);
+    border: none;
+    color: var(--theme-switcher-color);
+    padding: 8px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+#theme-dropdown {
+    background: transparent;
+    border: none;
+    color: var(--theme-switcher-color);
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 2px 5px;
+    margin-left: 5px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+#theme-dropdown:hover {
+    transform: scale(1.05);
+}
+
+#theme-dropdown option {
+    background-color: var(--theme-switcher-background);
+    color: var(--theme-switcher-color);
 }
 
 /* Responsive design */

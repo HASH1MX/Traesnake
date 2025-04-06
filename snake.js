@@ -59,6 +59,11 @@ function init() {
     // Set high score display
     highScoreElement.textContent = highScore;
     
+    // Initialize theme system
+    if (window.snakeThemes && window.snakeThemes.initThemes) {
+        window.snakeThemes.initThemes();
+    }
+    
     // Add event listeners
     document.addEventListener('keydown', handleKeyPress);
     startButton.addEventListener('click', startGame);
