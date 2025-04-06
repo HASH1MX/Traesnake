@@ -25,6 +25,10 @@ let isGameRunning = false;
 let gameOverScreen;
 let soundsEnabled = true;
 
+// Visual effects
+let particleSystem;
+let screenFlash;
+
 // Animation variables
 let snakePositions = []; // For interpolation
 
