@@ -40,7 +40,7 @@ const themes = {
         snakeBodyColor: '#66bb6a',
         foodColor: '#f44336',
         obstacleColor: '#795548',
-        gridLineColor: 'rgba(46, 125, 50, 0.2)',
+        gridLineColor: 'rgba(46, 125, 50, 0.5)',
         
         // Game over screen
         gameOverBackground: 'linear-gradient(145deg, rgba(200, 230, 201, 0.95), rgba(165, 214, 167, 0.95))',
@@ -89,7 +89,7 @@ const themes = {
         snakeBodyColor: '#f06292',
         foodColor: '#8e24aa',
         obstacleColor: '#ce93d8',
-        gridLineColor: 'rgba(236, 64, 122, 0.2)',
+        gridLineColor: 'rgba(236, 64, 122, 0.5)',
         
         // Game over screen
         gameOverBackground: 'linear-gradient(145deg, rgba(248, 187, 208, 0.95), rgba(244, 143, 177, 0.95))',
@@ -138,7 +138,7 @@ const themes = {
         snakeBodyColor: '#cc00cc',
         foodColor: '#ffff00',
         obstacleColor: '#ff9900',
-        gridLineColor: 'rgba(0, 255, 255, 0.3)',
+        gridLineColor: 'rgba(0, 255, 255, 0.5)',
         
         // Game over screen
         gameOverBackground: 'linear-gradient(145deg, rgba(13, 13, 43, 0.95), rgba(22, 33, 62, 0.95))',
@@ -187,7 +187,7 @@ const themes = {
         snakeBodyColor: '#32cd32',
         foodColor: '#ff00ff',
         obstacleColor: '#ff3300',
-        gridLineColor: 'rgba(57, 255, 20, 0.3)',
+        gridLineColor: 'rgba(57, 255, 20, 0.5)',
         
         // Game over screen
         gameOverBackground: 'linear-gradient(145deg, rgba(18, 18, 18, 0.95), rgba(26, 26, 26, 0.95))',

@@ -29,16 +29,16 @@
     --control-color: white;
     
     /* Buttons */
-    --button-background: linear-gradient(145deg, #66bb6a, #4caf50);
-    --button-hover-background: linear-gradient(145deg, #4caf50, #66bb6a);
-    --button-color: white;
+    --button-background: linear-gradient(145deg, #4caf50, #2e7d32);
+    --button-hover-background: linear-gradient(145deg, #2e7d32, #4caf50);
+    --button-color: #f5f5f5;
     
     /* Game elements */
     --snake-head-color: #388e3c;
     --snake-body-color: #66bb6a;
     --food-color: #f44336;
     --obstacle-color: #795548;
-    --grid-line-color: rgba(46, 125, 50, 0.2);
+    --grid-line-color: rgba(46, 125, 50, 0.5);
     
     /* Game over screen */
     --game-over-background: linear-gradient(145deg, rgba(200, 230, 201, 0.95), rgba(165, 214, 167, 0.95));
@@ -166,8 +166,8 @@ h1 {
     height: 60px;
     margin: 0 5px;
     font-size: 24px;
-    background: linear-gradient(145deg, #81c784, #66bb6a);
-    color: white;
+    background: var(--control-background);
+    color: var(--control-color);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -181,20 +181,20 @@ h1 {
 .control-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(145deg, #66bb6a, #81c784);
+    background: var(--control-hover-background);
 }
 
 .control-btn:active, .control-btn.pressed {
     transform: translateY(1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(145deg, #4caf50, #66bb6a);
+    background: var(--control-active-background);
 }
 
 #start-btn {
     padding: 12px 25px;
     font-size: 18px;
-    background: linear-gradient(145deg, #66bb6a, #4caf50);
-    color: white;
+    background: var(--button-background);
+    color: var(--button-color);
     border: none;
     border-radius: 30px;
     cursor: pointer;
@@ -208,7 +208,7 @@ h1 {
 #start-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(145deg, #4caf50, #66bb6a);
+    background: var(--button-hover-background);
 }
 
 #start-btn:active {
@@ -252,8 +252,8 @@ h1 {
 
 #restart-btn {
     padding: 10px 20px;
-    background: linear-gradient(145deg, #66bb6a, #4caf50);
-    color: white;
+    background: var(--button-background);
+    color: var(--button-color);
     border: none;
     border-radius: 30px;
     cursor: pointer;
@@ -267,7 +267,7 @@ h1 {
 #restart-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(145deg, #4caf50, #66bb6a);
+    background: var(--button-hover-background);
 }
 
 /* Animation for food */
