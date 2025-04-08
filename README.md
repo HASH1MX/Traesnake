@@ -11,6 +11,27 @@ A modern, interactive Snake game built with HTML5 Canvas and JavaScript. Feature
 - Sound effects with toggle option
 - Responsive design
 - Local storage for high score persistence
+- - Smooth snake movement with animation interpolation
+- Visual effects including particle systems
+- Border crossing effect (snake appears on opposite side)
+- Mobile-friendly touch controls
+- Sound effects with toggle option
+- Responsive design
+- Local storage for high score persistence
+- - Smooth snake movement with animation interpolation
+- Visual effects including particle systems
+- Border crossing effect (snake appears on opposite side)
+- Mobile-friendly touch controls
+- Sound effects with toggle option
+- Responsive design
+- Local storage for high score persistence
+- - Smooth snake movement with animation interpolation
+- Visual effects including particle systems
+- Border crossing effect (snake appears on opposite side)
+- Mobile-friendly touch controls
+- Sound effects with toggle option
+- Responsive design
+- Local storage for high score persistence
 
 ## Play the Game
 
