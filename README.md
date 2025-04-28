@@ -18,7 +18,7 @@ A modern, interactive Snake game built with HTML5 Canvas and JavaScript. Feature
 
 You can play the game directly at: [https://yourusername.github.io/Traesnake/](https://yourusername.github.io/Traesnake/)
 
-## How to Play
+## How to Play :
 
 - Use arrow keys or on-screen buttons to control the snake
 - Eat food to grow longer and increase your score
