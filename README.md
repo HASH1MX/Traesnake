@@ -14,7 +14,7 @@ A modern, interactive Snake game built with HTML5 Canvas and JavaScript. Feature
 - - Smooth snake movement with animation interpolation
 
 
-## Play the Game  BEST GAME IN THE MARKET. TOP TIER!!
+## Play the Game  BEST GAME IN THE MARKET. TOP TIER!
 
 You can play the game directly at: [https://yourusername.github.io/Traesnake/](https://yourusername.github.io/Traesnake/)
 
