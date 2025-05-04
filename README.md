@@ -35,10 +35,7 @@ You can play the game directly at: [https://yourusername.github.io/Traesnake/](h
 - Avoid hitting obstacles or yourself
 - Cross the borders to appear on the opposite side
 
-- - Use arrow keys or on-screen buttons to control the snake
-- Eat food to grow longer and increase your score
-- Avoid hitting obstacles or yourself
-- Cross the borders to appear on the opposite side
+
 
 - - Use arrow keys or on-screen buttons to control the snake
 - Eat food to grow longer and increase your score
