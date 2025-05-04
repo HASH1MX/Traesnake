@@ -1,4 +1,4 @@
-# Snake Game
+# Snake Gamee
 
 A modern, interactive Snake game built with HTML5 Canvas and JavaScript. Features smooth animations, visual effects, and mobile-friendly controls.
 
