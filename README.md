@@ -11,7 +11,7 @@ A modern, interactive Snake game built with HTML5 Canvas and JavaScript. Feature
 - Sound effects with toggle option
 - Responsive design
 - Local storage for high score persistence
-- - Smooth snake movement with animation interpolation
+  
 
 
 ## Play the Game  BEST GAME IN THE MARKET.
