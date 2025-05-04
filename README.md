@@ -16,7 +16,7 @@ A modern, interactive Snake game built with HTML5 Canvas and JavaScript. Feature
 
 ## Play the Game  BEST GAME IN THE MARKET.
 
-You can play the game directly at: [https://yourusername.github.io/Traesnake/](https://yourusername.github.io/Traesnake/)
+You can play the game directly at: [https://yourusername.github.io/Traesnake/](https://HASH1MX.github.io/Traesnake/)
 
 ## How to Play :
 
