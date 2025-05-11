@@ -2,7 +2,6 @@
 
 A modern, interactive Snake game built with HTML5 Canvas and JavaScript. Features smooth animations, visual effects, and mobile-friendly controls.
 
-
 ## Features :
 
 - Smooth snake movement with animation interpolation
